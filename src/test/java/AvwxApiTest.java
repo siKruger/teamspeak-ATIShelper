@@ -7,7 +7,7 @@ import java.io.IOException;
 public class AvwxApiTest {
 
     @Test
-    public void getAtisTest() throws IOException {
+    public void getMetarTest() throws IOException {
         JSONObject res = AvwxRequests.getMetar("EDDF");
 
 
