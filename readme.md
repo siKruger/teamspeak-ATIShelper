@@ -1,5 +1,9 @@
 # Teamspeak ATIS-Bots
 
+## Instructions
+- place bot_identity.ini in main/src/resources/
+
+
 ## Overview
 
 - user based teamspeak bot
@@ -12,7 +16,7 @@
 
 ---
 **Phase 1/ basic teamspeak functions**
-- [ ] connect
+- [x] connect
 - [ ] disconnect
 
 ---
