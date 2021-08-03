@@ -2,6 +2,9 @@ package bot;
 
 
 import com.github.manevolent.ts3j.command.CommandException;
+import com.github.manevolent.ts3j.event.ClientPokeEvent;
+import com.github.manevolent.ts3j.event.TS3Listener;
+import com.github.manevolent.ts3j.event.TextMessageEvent;
 import com.github.manevolent.ts3j.identity.Identity;
 import com.github.manevolent.ts3j.identity.LocalIdentity;
 import com.github.manevolent.ts3j.protocol.socket.client.LocalTeamspeakClientSocket;
@@ -33,7 +36,63 @@ public class AtisBot {
         client.setNickname("ATIS/METAR/TAF Bot");
         client.connect(dotenv.get("TEAMSPEAK_HOSTNAME"), dotenv.get("TEAMSPEAK_PASSWORD"), 20000);
         client.setDescription("Write !help to get a list of available commands.");
+
+        client.addListener(this);
+
+
     }
 
+    @Override
+    public void onClientPoke(ClientPokeEvent e) {
+        TS3Listener.super.onClientPoke(e);
+
+        try {
+            cmd(e.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (CommandException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (TimeoutException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("poke");
+    }
+
+    @Override
+    public void onTextMessage(TextMessageEvent e) {
+        TS3Listener.super.onTextMessage(e);
+
+        try {
+            cmd(e.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (CommandException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (TimeoutException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("nachricht");
+    }
+
+    public void cmd(String msg) throws IOException, CommandException, InterruptedException, TimeoutException {
+        switch (msg) {
+            case "!METAR": reply("METAR F"); break;
+            case "!ATIS": reply("ATIS F"); break;
+            case "!TAF": reply("TAF F"); break;
+            default:break;
+        }
+    }
+
+    public void reply(String msg) throws IOException, CommandException, InterruptedException, TimeoutException {
+        client.sendChannelMessage(client.getClientId(), msg);
+    }
+
+    public static void main(String[] args) throws GeneralSecurityException, CommandException, IOException, ExecutionException, InterruptedException, TimeoutException {
+        new AtisBot();
+    }
 
 }
