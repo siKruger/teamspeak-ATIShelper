@@ -21,7 +21,7 @@ import java.security.spec.ECPoint;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-public class AtisBot {
+public class AtisBot implements TS3Listener {
     LocalTeamspeakClientSocket client;
     Dotenv dotenv = Dotenv.load();
 
