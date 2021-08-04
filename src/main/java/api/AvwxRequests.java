@@ -21,6 +21,10 @@ public class AvwxRequests {
         return makeHttpGet("/metar/" + station);
     }
 
+    public static JSONObject getTAF(String station) throws IOException {
+        return makeHttpGet("/taf/" + station);
+    }
+
 
     /**
      * Make a http request to avwx
