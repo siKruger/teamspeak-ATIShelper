@@ -2,6 +2,7 @@
 
 ## Instructions
 - place bot_identity.ini in main/src/resources/
+- modify environment variables
 
 
 ## Overview
@@ -16,8 +17,9 @@
 
 ---
 **Phase 1/ basic teamspeak functions**
+
 - [x] connect
-- [ ] disconnect
+- [x] disconnect // kinda lol
 
 ---
 **Phase 2/ basic request functions**
