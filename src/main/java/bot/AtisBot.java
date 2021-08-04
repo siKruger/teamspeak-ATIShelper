@@ -18,12 +18,17 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.spec.ECPoint;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.*;
 
 public class AtisBot implements TS3Listener {
     LocalTeamspeakClientSocket client;
     Dotenv dotenv = Dotenv.load();
+    List<String> cmdList = new ArrayList<String>(); // create a list for all commands || maybe can be replaced by something better
 
 
     public AtisBot() throws CommandException, IOException, ExecutionException, InterruptedException, TimeoutException, GeneralSecurityException {
@@ -39,56 +44,38 @@ public class AtisBot implements TS3Listener {
 
         client.addListener(this);
 
+        // fill the list with availabe commands
+        cmdList.add("METAR");
+        cmdList.add("ATIS");
+        cmdList.add("TAF");
+
 
     }
 
-    @Override
-    public void onClientPoke(ClientPokeEvent e) {
-        TS3Listener.super.onClientPoke(e);
-
-        try {
-            cmd(e.getMessage());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (CommandException ex) {
-            ex.printStackTrace();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        } catch (TimeoutException ex) {
-            ex.printStackTrace();
-        }
-        System.out.println("poke");
-    }
+//    first implementation will only be onMessage
+//    @Override
+//    public void onClientPoke(ClientPokeEvent e) {
+//        TS3Listener.super.onClientPoke(e);
+//
+//        //cmd(e.getMessage());
+//        System.out.println("poke");
+//    }
 
     @Override
     public void onTextMessage(TextMessageEvent e) {
         TS3Listener.super.onTextMessage(e);
-
-        try {
-            cmd(e.getMessage());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (CommandException ex) {
-            ex.printStackTrace();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        } catch (TimeoutException ex) {
-            ex.printStackTrace();
+        System.out.println(e.getMessage());                               // debug
+        if (Pattern.matches("!.+",e.getMessage())) {                // ignores all messages witch aren't commands
+            String msg = e.getMessage().toUpperCase().substring(1);       // variable for easier access || to uppercase for unity || removes the '!' || can be shortend
+            if (Pattern.matches("^" + cmdList.get(0) + "\s*.*",msg) || Pattern.matches("^" + cmdList.get(1) + "\s*.*",msg) || Pattern.matches("^" + cmdList.get(2) + "\s*.*",msg)) { // fuck this || can be replaced by "([A-Z]+\s+[A-Z] * |^" in next line
+                if (Pattern.matches("([A-Z]+\s+[A-Z]{4}|^" + cmdList.get(1) + "\s+([A-Z]{4}|1\\d\\d\\.\\d{1,3}))",msg)){ // checks if the command has a target (icao or freq) else sends help massage || makes the line above useless i guess
+                   System.out.println(msg);             // can be send to the http request part
+                } else {
+                    System.out.println("Use !" + msg + " and the ICAO-Code of a target Airport to get the current " + msg + ". *placeholder*"); // replies with instructions for specific command || needs to be made command specific
+                }
+            }
+            System.out.println("Type !help for a list of all commands"); // replies with a list of all commands for because entry is unknows || bug witch trigers
         }
-        System.out.println("nachricht");
-    }
-
-    public void cmd(String msg) throws IOException, CommandException, InterruptedException, TimeoutException {
-        switch (msg) {
-            case "!METAR": reply("METAR F"); break;
-            case "!ATIS": reply("ATIS F"); break;
-            case "!TAF": reply("TAF F"); break;
-            default:break;
-        }
-    }
-
-    public void reply(String msg) throws IOException, CommandException, InterruptedException, TimeoutException {
-        client.sendChannelMessage(client.getClientId(), msg);
     }
 
     public static void main(String[] args) throws GeneralSecurityException, CommandException, IOException, ExecutionException, InterruptedException, TimeoutException {
