@@ -3,13 +3,8 @@ package bot;
 import api.AvwxRequests;
 import atis.Atis;
 import com.github.manevolent.ts3j.api.TextMessageTargetMode;
-import com.github.manevolent.ts3j.command.CommandException;
-
-import com.github.manevolent.ts3j.event.ClientPokeEvent;
 import com.github.manevolent.ts3j.event.TS3Listener;
 import com.github.manevolent.ts3j.event.TextMessageEvent;
-import com.github.manevolent.ts3j.identity.Identity;
-
 import com.github.manevolent.ts3j.identity.LocalIdentity;
 import com.github.manevolent.ts3j.protocol.socket.client.LocalTeamspeakClientSocket;
 import exception.AtisCooldownException;
@@ -19,16 +14,6 @@ import tts.OpusParameters;
 import tts.TeamspeakFastMixerSink;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import java.security.spec.ECPoint;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import static tts.TeamspeakFastMixerSink.AUDIO_FORMAT;
