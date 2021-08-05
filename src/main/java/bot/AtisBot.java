@@ -31,7 +31,6 @@ public class AtisBot implements TS3Listener {
     String liste[][] = new String[4][2];
 
 
-
     public AtisBot() throws CommandException, IOException, ExecutionException, InterruptedException, TimeoutException, GeneralSecurityException {
         client = new LocalTeamspeakClientSocket();
 
@@ -61,7 +60,7 @@ public class AtisBot implements TS3Listener {
     public void onTextMessage(TextMessageEvent e) { // fetches message
         TS3Listener.super.onTextMessage(e);
         System.out.println(e.getMessage());
-        if (Pattern.matches("^!.+",e.getMessage())) { // checks if message is command
+        if (Pattern.matches("^!.+", e.getMessage())) { // checks if message is command
             try {
                 messageLength(e.getMessage());
             } catch (IOException ex) {
@@ -75,7 +74,7 @@ public class AtisBot implements TS3Listener {
             }
         }
     }
-    
+
     public void messageLength(String msg) throws IOException, CommandException, InterruptedException, TimeoutException { // checks if message contains values
         String[] part = msg.toUpperCase().substring(1).split("\s");
         String part1, part2;
@@ -83,18 +82,18 @@ public class AtisBot implements TS3Listener {
         if (part.length == 2) {
             part1 = part[0];
             part2 = part[1];
-            System.out.println(part1+"\n"+part2);
-            action(part1,part2);
-        } else if (part.length == 1)  {
+            System.out.println(part1 + "\n" + part2);
+            action(part1, part2);
+        } else if (part.length == 1) {
             part1 = part[0];
             System.out.println(part1);
-            action(part1,"");
+            action(part1, "");
         }
     }
-    
+
     public void action(String part1, String part2) throws IOException, CommandException, InterruptedException, TimeoutException {
-        System.out.println("action!"+part1+part2);
-        if (!part2.equals("") && Pattern.matches("[A-Z]{3,4}",part2) && !part2.equals("HELP")) {
+        System.out.println("action!" + part1 + part2);
+        if (!part2.equals("") && Pattern.matches("[A-Z0-9]{3,4}", part2) && !part2.equals("HELP")) {
             if (liste[0][0].equals(part1)) {
                 // getMetar(part2);
                 System.out.println("getMetar(part2);");
@@ -109,27 +108,20 @@ public class AtisBot implements TS3Listener {
                 response("getTaf(part2);");
             }
         } else {
-            if (liste[0][0].equals(part1)) {
-                System.out.println(liste[0][1]);
-                response(liste[0][1]);
-            } else if (liste[1][0].equals(part1)) {
-                System.out.println(liste[1][1]);
-                response(liste[1][1]);
-            } else if (liste[2][0].equals(part1)) {
-                System.out.println(liste[2][1]);
-                response(liste[2][1]);
-            } else if (liste[3][0].equals(part1)) { // useless because it gets called regardless of being !help or something he doesn't know
-                System.out.println(liste[3][1]);
-                response(liste[3][1]);
-            } else {
-                System.out.println(liste[3][1]);
-                response(liste[3][1]);
+            for (int x = 0; x <= liste.length; x++) {
+                if (part1.equals(liste[x][0])) {
+                    System.out.println(liste[x][1]);
+                    response(liste[x][1]);
+                    return;
+                }
             }
+            System.out.println(liste[3][1]);
+            response(liste[3][1]);
         }
     }
 
     public void response(String msg) throws IOException, CommandException, InterruptedException, TimeoutException {
-        client.sendChannelMessage(client.getClientId(),msg);
+        client.sendChannelMessage(client.getClientId(), msg);
     }
 
     public static void main(String[] args) throws GeneralSecurityException, CommandException, IOException, ExecutionException, InterruptedException, TimeoutException {
