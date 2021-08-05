@@ -13,12 +13,12 @@ public class VoiceRssTTS {
         VoiceProvider tts = new VoiceProvider("36e045f8951a49cd9152098c3594445c");
         VoiceParameters params = new VoiceParameters(text, Languages.English_UnitedStates);
 
-        params.setVoice("Mike");
+        params.setVoice("John");
         params.setCodec(AudioCodec.MP3);
         params.setFormat(com.voicerss.tts.AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
         params.setBase64(false);
         params.setSSML(false);
-        params.setRate(0);
+        params.setRate(-2);
 
         byte[] voice = tts.speech(params);
 
@@ -27,6 +27,5 @@ public class VoiceRssTTS {
         fos.write(voice, 0, voice.length);
         fos.flush();
         fos.close();
-
     }
 }
