@@ -56,15 +56,42 @@
             <version>2.2.0</version>
         </dependency>
 
+        <!-- Opus playback -->
+        <dependency>
+            <groupId>net.tomp2p</groupId>
+            <artifactId>opus-wrapper</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
+        <!--suppress MavenModelInspection -->
         <dependency>
             <groupId>com.github.manevolent</groupId>
             <artifactId>ts3j</artifactId>
             <version>-SNAPSHOT</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.github.manevolent</groupId>
+            <artifactId>ffmpeg4j</artifactId>
+            <version>534e72e6e7</version>
+        </dependency>
+
+
     </dependencies>
 
 
     <repositories>
+        <repository>
+            <id>marytts</id>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <id>tomp2p.net</id>
+            <url>https://tomp2p.net/dev/mvn/</url>
+        </repository>
+
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
