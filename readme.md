@@ -25,8 +25,8 @@
 
 ---
 **Phase 2/ basic request functions**
-- [ ] METAR/TAF by text
-- [ ] response in channel or direct
+- [x] METAR/TAF by text
+- [x] response in channel or direct
 
 
 ---
