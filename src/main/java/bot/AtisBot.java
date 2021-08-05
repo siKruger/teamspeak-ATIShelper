@@ -1,5 +1,8 @@
 package bot;
 
+import api.AvwxRequests;
+import atis.Atis;
+import com.github.manevolent.ts3j.api.TextMessageTargetMode;
 import com.github.manevolent.ts3j.command.CommandException;
 
 import com.github.manevolent.ts3j.event.ClientPokeEvent;
@@ -9,7 +12,9 @@ import com.github.manevolent.ts3j.identity.Identity;
 
 import com.github.manevolent.ts3j.identity.LocalIdentity;
 import com.github.manevolent.ts3j.protocol.socket.client.LocalTeamspeakClientSocket;
+import exception.AtisCooldownException;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONObject;
 import tts.OpusParameters;
 import tts.TeamspeakFastMixerSink;
 
@@ -119,7 +124,7 @@ public class AtisBot implements TS3Listener {
                 try {
                     Atis.generateAtis(part2, sink);
                 } catch (AtisCooldownException e) {
-                    response("Bitte warte eine Minute...");
+                    response("Bitte warte eine Minute...", reciever);
                 }
 
 
