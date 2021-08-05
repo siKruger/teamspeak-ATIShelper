@@ -18,7 +18,7 @@ public class AvwxRequests {
     private static final Dotenv dotenv = Dotenv.load();
 
     public static JSONObject getMetar(String station) throws IOException {
-        return makeHttpGet("/metar/" + station);
+        return makeHttpGet("/metar/" + station + "?options=speech");
     }
 
     public static JSONObject getTAF(String station) throws IOException {

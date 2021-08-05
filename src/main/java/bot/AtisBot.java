@@ -1,7 +1,5 @@
 package bot;
 
-import api.AvwxRequests;
-import com.github.manevolent.ts3j.api.TextMessageTargetMode;
 import com.github.manevolent.ts3j.command.CommandException;
 
 import com.github.manevolent.ts3j.event.ClientPokeEvent;
@@ -12,7 +10,8 @@ import com.github.manevolent.ts3j.identity.Identity;
 import com.github.manevolent.ts3j.identity.LocalIdentity;
 import com.github.manevolent.ts3j.protocol.socket.client.LocalTeamspeakClientSocket;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.json.JSONObject;
+import tts.OpusParameters;
+import tts.TeamspeakFastMixerSink;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +24,14 @@ import java.util.Locale;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-import java.util.regex.*;
+import java.util.regex.Pattern;
+
+import static tts.TeamspeakFastMixerSink.AUDIO_FORMAT;
 
 public class AtisBot implements TS3Listener {
     LocalTeamspeakClientSocket client;
     Dotenv dotenv = Dotenv.load();
+    TeamspeakFastMixerSink sink;
 
     String liste[][] = new String[4][2];
 
@@ -45,7 +47,24 @@ public class AtisBot implements TS3Listener {
         client.connect(dotenv.get("TEAMSPEAK_HOSTNAME"), dotenv.get("TEAMSPEAK_PASSWORD"), 20000);
         client.setDescription("Write !help to get a list of available commands.");
 
+        // Create a sink
+        sink = new TeamspeakFastMixerSink(
+                AUDIO_FORMAT,
+                (int) AUDIO_FORMAT.getSampleRate() * AUDIO_FORMAT.getChannels() * 2/*4=32bit float*/,
+                new OpusParameters(
+                        20,
+                        96000, // 96kbps
+                        10, // max complexity
+                        0, // 0 expected packet loss
+                        false, // no VBR
+                        false, // no FEC
+                        true // OPUS MUSIC - channel doesn't have to be Opus Music ;)
+                )
+        );
+        client.setMicrophone(sink);
         client.addListener(this);
+        sink.start();
+
 
         // fill the list with available commands
         liste[0][0] = "METAR";
@@ -96,7 +115,14 @@ public class AtisBot implements TS3Listener {
 
                 response(String.valueOf(getter.get("sanitized")), reciever);
             } else if (liste[1][0].equals(part1)) {
-                //response("getAtis(part2);");
+
+                try {
+                    Atis.generateAtis(part2, sink);
+                } catch (AtisCooldownException e) {
+                    response("Bitte warte eine Minute...");
+                }
+
+
             } else if (liste[2][0].equals(part1)) {
                 JSONObject getter = AvwxRequests.getTAF(part2);
 

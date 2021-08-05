@@ -3,6 +3,8 @@
 ## Instructions
 - place bot_identity.ini in main/src/resources/
 - modify environment variables
+- AVWX for METAR
+- VoiceRSS for TTS
 
 
 ## Overview
@@ -23,13 +25,14 @@
 
 ---
 **Phase 2/ basic request functions**
-- [ ] ATIS/METAR/TAF by text
+- [ ] METAR/TAF by text
 - [ ] response in channel or direct
 
 
 ---
 **Phase 3/ advanced response**
-- [ ] TTS for ATIS/METAR/TAF
+
+- [x] TTS for ATIS
 
 ---
 **Phase 4/ basic IVAO functions**
