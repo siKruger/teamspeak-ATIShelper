@@ -21,13 +21,6 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static tts.TeamspeakFastMixerSink.AUDIO_FORMAT;
-
-/*
-    Credits:
-    https://github.com/Manevolent
-    https://github.com/Manevolent/ts3j
- */
-
 public class TTSGenerator {
 
     public static void speakText(String text, TeamspeakFastMixerSink sink) throws IOException, MaryConfigurationException, SynthesisException, EncoderException, FFmpegException {
@@ -46,6 +39,13 @@ public class TTSGenerator {
         AudioFileFormat.Type spokenFormat = AudioFileFormat.Type.WAVE;
         AudioSystem.write(spoken, spokenFormat, outputFile);
     }
+
+
+    /*
+    Credits:
+    https://github.com/Manevolent
+    https://github.com/Manevolent/ts3j
+    */
 
     private static void playLastMp3(TeamspeakFastMixerSink sink) throws FFmpegException, IOException {
         FFmpeg.register();
