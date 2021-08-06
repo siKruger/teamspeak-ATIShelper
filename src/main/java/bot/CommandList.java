@@ -1,16 +1,17 @@
 package bot;
 
-public class Database {
+@Deprecated
+public class CommandList {
     /**
-     * A Database class for all static values
-     *
+     * A CommandList class for all static values
+     * <p>
      * ToDo
-     *  - Reorganize structure
-    */
+     * - Reorganize structure
+     */
 
     public static String command[][] = new String[30][2]; // not dynamic
 
-    private Database() {
+    private CommandList() {
         // base commands
 
         command[0][1] = "Type !METAR and an Airport ICAO- or IATA-Code to get the current METAR report.";
@@ -89,11 +90,11 @@ public class Database {
         for (int x = 0; x < command.length; x++) {
             command[3][1] += "!" + command[x][0] + "\n";
         }
-        command[3][1] += "For command specific help type the command without value.\n Note: Every command with a '2' is a conversion between units.\nUse the same unit type for calculation for example: Speed in kmh and distance in km.";
+        command[3][1] += "For command specific help type the command without value.\n Note: Every command with a '2' is a conversion between units."; //\nUse the same unit type for calculation for example: Speed in kmh and distance in km.";
 
     }
 
     public static void DBcreate() {
-        new Database();
+        new CommandList();
     }
 }
