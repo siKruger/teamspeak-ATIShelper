@@ -4,11 +4,17 @@ import com.github.manevolent.ffmpeg4j.*;
 import com.github.manevolent.ffmpeg4j.filter.audio.FFmpegAudioResampleFilter;
 import com.github.manevolent.ffmpeg4j.source.FFmpegAudioSourceSubstream;
 import com.github.manevolent.ffmpeg4j.stream.source.FFmpegSourceStream;
+import converter.AudioConverter;
+import marytts.LocalMaryInterface;
+import marytts.MaryInterface;
+import marytts.exceptions.MaryConfigurationException;
+import marytts.exceptions.SynthesisException;
+import ws.schild.jave.EncoderException;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import java.io.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Queue;
@@ -22,11 +28,28 @@ import static tts.TeamspeakFastMixerSink.AUDIO_FORMAT;
     https://github.com/Manevolent/ts3j
  */
 
-public class Mp3TTSHelper {
+public class TTSGenerator {
 
-    public static void playLastMp3(TeamspeakFastMixerSink sink) throws FFmpegException, IOException {
+    public static void speakText(String text, TeamspeakFastMixerSink sink) throws IOException, MaryConfigurationException, SynthesisException, EncoderException, FFmpegException {
+        File ttsWavFile = new File("src\\main\\resources\\tts.wav");
+
+        generateWavFromString(ttsWavFile, text);
+        AudioConverter.wavToMp3(ttsWavFile, new File("src\\main\\resources\\tts.mp3"));
+        playLastMp3(sink);
+    }
+
+    private static void generateWavFromString(File outputFile, String text) throws MaryConfigurationException, SynthesisException, IOException {
+        MaryInterface tts = new LocalMaryInterface();
+        tts.setVoice("cmu-bdl-hsmm");
+
+        AudioInputStream spoken = tts.generateAudio(text);
+        AudioFileFormat.Type spokenFormat = AudioFileFormat.Type.WAVE;
+        AudioSystem.write(spoken, spokenFormat, outputFile);
+    }
+
+    private static void playLastMp3(TeamspeakFastMixerSink sink) throws FFmpegException, IOException {
         FFmpeg.register();
-        InputStream inputStream = new FileInputStream("voice.mp3");
+        InputStream inputStream = new FileInputStream("src\\main\\resources\\tts.mp3");
 
 
         FFmpegInput input = new FFmpegInput(inputStream);
