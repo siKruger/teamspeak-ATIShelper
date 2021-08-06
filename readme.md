@@ -4,7 +4,6 @@
 - place bot_identity.ini in main/src/resources/
 - modify environment variables
 - AVWX for METAR
-- VoiceRSS for TTS
 
 
 ## Overview

@@ -3,9 +3,10 @@ package bot;
 public class FLC {
     /**
      * Class for computation purposes like airspeed, height, FFL and units
-     *
+     * <p>
      * ToDo
-     *  - Print two decimal places with "%.2f"
+     * - Print two decimal places with "%.2f"
+     * - move into package converter plz
      */
 
     // units
