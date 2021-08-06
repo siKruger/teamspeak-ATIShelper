@@ -81,9 +81,9 @@ public class AtisBot implements TS3Listener {
         }
     }
 
-    public void messageLength(String msg, int reciever) throws Exception { // checks if message contains values
-        String[] part = msg.toUpperCase().substring(1).split("\s");
-        String part1, part2, part3, part4;
+    private void commandAnalyzer(String msg, int reciever) throws Exception { // checks if message contains values
+        String[] request = msg.toUpperCase().substring(1).split("\s");
+        String cmmd = request[0], value1 = "", value2 = "", value3 = "";
 
         if (part.length == 1) {
             part1 = part[0];

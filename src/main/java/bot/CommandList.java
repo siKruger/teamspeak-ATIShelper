@@ -12,7 +12,7 @@ public class Database {
 
     private Database() {
         // base commands
-        command[0][0] = "METAR";
+
         command[0][1] = "Type !METAR and an Airport ICAO- or IATA-Code to get the current METAR report.";
         command[1][0] = "ATIS";
         command[1][1] = "Type !ATIS and an Airport ICAO- or IATA-Code to get the current ATIS report.";
@@ -72,7 +72,7 @@ public class Database {
         command[25][0] = "PRESSUREALT"; // maybe wrong
         command[25][1] = "To calculate the pressure altitude type !PRESSUREALT pressure in hPa and indicated altitude.";
         command[26][0] = "DELTATEMP";
-        command[26][1] = "To calculate the temperature difference between SAT and ISA type !DELTATEMP the pressure altitude and static air temperature.";
+        command[26][1] = "To calculate the denity altitude type !DENSITYALT the temperature difference and pressure altitude.";
         command[27][0] = "DENSITYALT";
         command[27][1] = "To calculate the denity altitude type !DENSITYALT the temperature difference and pressure altitude.";
 
