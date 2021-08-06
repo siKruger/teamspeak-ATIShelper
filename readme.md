@@ -1,10 +1,17 @@
 # Teamspeak ATIS-Bots
 
 ## Instructions
+
 - place bot_identity.ini in main/src/resources/
 - modify environment variables
 - AVWX for METAR
 
+Environment variables
+
+- TEAMSPEAK_HOSTNAME
+- TEAMSPEAK_PORT
+- TEAMSPEAK_PASSWORD
+- METAR_API_TOKEN
 
 ## Overview
 
