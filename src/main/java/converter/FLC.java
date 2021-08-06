@@ -1,13 +1,13 @@
-package bot;
+package converter;
 
 public class FLC {
-    /**
-     * Class for computation purposes like airspeed, height, FFL and units
-     * <p>
-     * ToDo
-     * - Print two decimal places with "%.2f"
-     * - move into package converter plz
+
+    /*
+    TODO
+    - all method into one
+
      */
+
 
     // units
     // conversions
