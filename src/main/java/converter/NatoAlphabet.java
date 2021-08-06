@@ -35,11 +35,6 @@ public enum NatoAlphabet {
         this.spoken = spoken;
     }
 
-    public static void main(String[] args) {
-        NatoAlphabet t = NatoAlphabet.valueOf("F");
-        System.out.println(t.spoken);
-    }
-
     public String getSpoken() {
         return this.spoken;
     }
