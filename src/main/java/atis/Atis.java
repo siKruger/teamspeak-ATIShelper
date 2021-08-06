@@ -2,7 +2,6 @@ package atis;
 
 import api.AvwxRequests;
 import converter.NatoAlphabet;
-import exception.AtisCooldownException;
 import org.joda.time.LocalTime;
 import org.json.JSONObject;
 import tts.TTSGenerator;
@@ -16,8 +15,8 @@ public class Atis {
         System.out.println(lastRequest);
 
 
-        if (lastRequest.getHourOfDay() == new LocalTime().getHourOfDay() && lastRequest.getMinuteOfHour() + 1 > new LocalTime().getMinuteOfHour())
-            throw new AtisCooldownException();
+//        if (lastRequest.getHourOfDay() == new LocalTime().getHourOfDay() && lastRequest.getMinuteOfHour() + 1 > new LocalTime().getMinuteOfHour())
+//            throw new AtisCooldownException();
         lastRequest = new LocalTime();
 
 
