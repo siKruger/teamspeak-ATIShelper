@@ -34,6 +34,7 @@ public class TTSGenerator {
     private static void generateWavFromString(File outputFile, String text) throws MaryConfigurationException, SynthesisException, IOException {
         MaryInterface tts = new LocalMaryInterface();
         tts.setVoice("cmu-bdl-hsmm");
+        tts.setAudioEffects("Rate(durScale:1.3)");
 
         AudioInputStream spoken = tts.generateAudio(text);
         AudioFileFormat.Type spokenFormat = AudioFileFormat.Type.WAVE;
