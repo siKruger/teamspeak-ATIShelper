@@ -1,12 +1,11 @@
 package atis;
 
 import api.AvwxRequests;
-import api.VoiceRssTTS;
 import converter.NatoAlphabet;
 import exception.AtisCooldownException;
 import org.joda.time.LocalTime;
 import org.json.JSONObject;
-import tts.Mp3TTSHelper;
+import tts.TTSGenerator;
 import tts.TeamspeakFastMixerSink;
 
 public class Atis {
@@ -41,10 +40,10 @@ public class Atis {
         finalAtis = new StringBuilder(finalAtis.toString().replaceAll("kt", " knots"));
         finalAtis = new StringBuilder(finalAtis.toString().replaceAll("[(]", ""));
         finalAtis = new StringBuilder(finalAtis.toString().replaceAll("[)]", ""));
+        finalAtis = new StringBuilder(finalAtis.toString().replaceAll("ft", " feet"));
+        finalAtis.append(". End of Automatic Terminal Information Service");
 
 
-        VoiceRssTTS.generateMp3FromText(finalAtis.toString());
-        Mp3TTSHelper.playLastMp3(sink);
-
+        TTSGenerator.speakText(String.valueOf(finalAtis), sink);
     }
 }
