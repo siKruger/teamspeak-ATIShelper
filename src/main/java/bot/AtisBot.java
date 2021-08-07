@@ -87,13 +87,12 @@ public class AtisBot implements TS3Listener {
 
     private void commandAnalyzer(String msg, int reciever) throws Exception { // checks if message contains values
         String[] request = msg.toUpperCase().substring(1).split("\s");
-        String cmmd = request[0], value1 = "", value2 = "", value3 = "";
+        String command = request[0], value1 = "", value2 = "", value3 = "";
 
         switch (request.length) {
             //command + 1 value (e.g. conversion, metar -> !atis eddh; !metar fra)
             case 2 -> {
                 value1 = request[1];
-                action(cmmd, value1, "", "", reciever);
             }
 
             //command + 2 values (e.g conversion; !tas 32 42)
@@ -110,17 +109,17 @@ public class AtisBot implements TS3Listener {
             }
         }
 
-        action(cmmd, value1, value2, value3, reciever);
+        action(command, value1, value2, value3, reciever);
     }
 
 
     // this is going to be terrifying. YES IT IS
     private void action(String command, String value1, String value2, String value3, int reciever) throws Exception {
+        Commands commandToExecute = Commands.valueOf(command);
 
         //METAR/ATIS/TAF
-        if (!value1.equals("") && Pattern.matches("[A-Z0-9]{3,4}", value1) && !value1.equals("HELP") && value2.equals("")) {
+        if (!value1.equals("") && Pattern.matches("[A-Z0-9]{3,4}", value1) && !command.equals("HELP") && value2.equals("")) {
 
-            Commands commandToExecute = Commands.valueOf(command);
             if (commandToExecute.name().equals("METAR")) {
                 JSONObject getter = AvwxRequests.getMetar(value1);
                 response(String.valueOf(getter.get("sanitized")), reciever);
@@ -129,6 +128,7 @@ public class AtisBot implements TS3Listener {
 
             if (commandToExecute.name().equals("ATIS")) {
                 try {
+                    response("Playing ATIS for " + value1, reciever);
                     Atis.generateAtis(value1, sink);
                 } catch (AtisCooldownException e) {
                     response("Bitte warte eine Minute...", reciever);
@@ -141,69 +141,12 @@ public class AtisBot implements TS3Listener {
                 response(String.valueOf(getter.get("sanitized")), reciever);
             }
 
-
-        } else if (!value1.equals("") && Pattern.matches("\\d+", value1) && !value1.equals("HELP")) {
-            if (CommandList.command[4][0].equals(command)) { // skip 3, because 3 is !HELP
-                response("" + FLC.kg2lb(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[5][0].equals(command)) {
-                response("" + FLC.lb2kg(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[6][0].equals(command)) {
-                response("" + FLC.kmh2kn(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[7][0].equals(command)) {
-                response("" + FLC.kn2kmh(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[8][0].equals(command)) {
-                response("" + FLC.km2nm(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[9][0].equals(command)) {
-                response("" + FLC.nm2km(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[10][0].equals(command)) {
-                response("" + FLC.m2ft(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[11][0].equals(command)) {
-                response("" + FLC.ft2m(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[12][0].equals(command)) {
-                response("" + FLC.c2f(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[13][0].equals(command)) {
-                response("" + FLC.f2c(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[14][0].equals(command)) {
-                response("" + FLC.hPa2inHg(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[15][0].equals(command)) {
-                response("" + FLC.inHg2hPa(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[16][0].equals(command)) {
-                response("" + FLC.h2min(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[17][0].equals(command)) {
-                response("" + FLC.min2h(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[18][0].equals(command)) {
-                response("" + FLC.ISA(Double.parseDouble(value1)), reciever);
-            } else if (CommandList.command[19][0].equals(command)) { // can cause problems
-                response("" + FLC.endurance(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[20][0].equals(command)) {
-                response("" + FLC.reqFuel(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[21][0].equals(command)) {
-                response("" + FLC.ffl(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[22][0].equals(command)) {
-                response("" + FLC.timeForDist(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[23][0].equals(command)) {
-                response("" + FLC.distInTime(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[24][0].equals(command)) {
-                response("" + FLC.speedByTimeForDist(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[25][0].equals(command)) {
-                response("" + FLC.pressureAlt(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[26][0].equals(command)) {
-                response("" + FLC.deltaTemp(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[27][0].equals(command)) {
-                response("" + FLC.densityAlt((Double.parseDouble(value1)), Double.parseDouble(value2)), reciever);
-            } else if (CommandList.command[28][0].equals(command)) {
-                response("" + FLC.trueAlt(Double.parseDouble(value1), Double.parseDouble(value2), Double.parseDouble(value3)), reciever);
-            } else if (CommandList.command[29][0].equals(command)) {
-                response("" + FLC.TAS(Double.parseDouble(value1), Double.parseDouble(value2)), reciever);
-            } // this is horrifying and needs to be refactored ASAP
+            // for every calculation
+        } else if (!value1.equals("") && Pattern.matches("\\d+", value1) && !command.equals("HELP")) {
+            response(FLC.calculations(command, value1, value2, value3), reciever);
         } else {
-            for (int x = 0; x < CommandList.command.length; x++) {
-                if (command.equals(CommandList.command[x][0])) {
-                    response(CommandList.command[x][1], reciever);
-                    return;
-                }
-            }
-            response(CommandList.command[3][1], reciever);
+            // help
+            response(commandToExecute.getHelpText(commandToExecute.name()), reciever);
         }
     }
 
@@ -214,6 +157,8 @@ public class AtisBot implements TS3Listener {
             client.sendChannelMessage(client.getClientId(), msg);
         }
     }
+
+
 
     public static void main(String[] args) throws Exception {
         new AtisBot();

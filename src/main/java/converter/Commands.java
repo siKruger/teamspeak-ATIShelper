@@ -4,7 +4,7 @@ public enum Commands {
     METAR("Type !METAR and an Airport ICAO- or IATA-Code to get the current METAR report."),
     ATIS("Type !ATIS and an Airport ICAO- or IATA-Code to get the current ATIS report."),
     TAF("Type !TAF and an Airport ICAO- or IATA-Code to get the current TAF report."),
-    HELP(""),
+    HELP(""), // fetch every name and print it
     KG2LB("To convert kilogram to pound type !KG2LB and a value in kilogram."),
     LB2KG("To convert pound to kilogram type !LB2KG and a value in pound."),
     KMH2KN("To convert kilometer per hour to knots type !KMH2KN and a value in kilometer per hour."),
@@ -39,5 +39,7 @@ public enum Commands {
         this.helpText = helpText;
     }
 
-
+    public String getHelpText(String name) { // I have no idea if this is necessary, but it returns the helpText
+        return this.helpText;
+    }
 }
