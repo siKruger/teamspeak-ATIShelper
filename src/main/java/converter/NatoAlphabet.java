@@ -12,7 +12,7 @@ public enum NatoAlphabet {
     I("India"),
     J("Juliet"),
     K("Kilo"),
-    L("Lima"),
+    L("Lima"), // leihmah -> LIMA || wrong pronunciation
     M("Mike"),
     N("November"),
     O("Oskar"),
@@ -22,7 +22,7 @@ public enum NatoAlphabet {
     S("Sierra"),
     T("Tango"),
     U("Uniform"),
-    V("Viktor"),
+    V("Victor"),
     W("Whiskey"),
     X("Xray"),
     Y("Yankee"),
