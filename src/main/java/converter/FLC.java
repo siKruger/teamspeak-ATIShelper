@@ -1,8 +1,5 @@
 package converter;
 
-import bot.AtisBot;
-import bot.CommandList;
-
 public class FLC {
 
     /**
@@ -121,6 +118,10 @@ public class FLC {
     // speed
     private static double TAS(double speed, double alt) {
         return ((((((alt / 1000) * 2) / 100) + 1) * speed));
+    }
+
+    private static String castTo2TwoDecimals(String value) {
+        return String.valueOf(Math.round(Double.parseDouble(value) * 100.0) / 100.0);
     }
 
 
