@@ -1,6 +1,7 @@
 package bot;
 
 import com.github.manevolent.ts3j.api.TextMessageTargetMode;
+import com.github.manevolent.ts3j.enums.CodecType;
 import com.github.manevolent.ts3j.event.TS3Listener;
 import com.github.manevolent.ts3j.event.TextMessageEvent;
 import com.github.manevolent.ts3j.identity.LocalIdentity;
@@ -57,6 +58,16 @@ public class AtisBot implements TS3Listener {
         client.setMicrophone(sink);
         client.addListener(this);
         sink.start();
+
+        client.setVoiceHandler((packet) -> onVoice(
+                packet.getCodecType(),
+                packet.getClientId(),
+                packet.getPacketId(),
+                packet.getCodecData())
+        ));
+    }
+
+    public void onVoice(CodecType codecType, int clientId, int packetId, byte[] codecData) {
 
     }
 
